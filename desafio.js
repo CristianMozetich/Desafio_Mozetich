@@ -1,5 +1,4 @@
 import { promises as fs } from 'fs'
-import { join } from 'path'
 
 const path = './productos.json'
 
