@@ -106,7 +106,11 @@ const productManager = new ProductManager()
 
 
 
-productManager.addProducto(producto1)
+productManager.addProducto(producto3)
+
+productManager.deleteProducts()
+
+productManager.updateProduct(3, {title: "empanada"})
 
 
 
