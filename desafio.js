@@ -1,28 +1,75 @@
+import { promises as fs } from 'fs'
+import { join } from 'path'
+
+const path = './productos.json'
+
 class ProductManager {
     constructor (){
-        this.products = []
+        this.path = path
     }
 
-    addProducto(product){
-        const prod = this.products.find(prod => prod.code === product.code)
+    getProducts = async ()=> {
+        const prods = JSON.parse( await fs.readFile(path, 'utf-8'))
 
-        if(prod){
+        console.log(prods)
+    }
+
+    addProducto = async (product)=> {
+        const prods = JSON.parse( await fs.readFile(path, 'utf-8'))
+
+        const producto = prods.find( p => p.id === product.id)
+
+        if(producto){
             console.log("Producto ya encontrado")
+        } else{
+            prods.push(product)
+            await fs.writeFile(path, JSON.stringify(prods)) // para modificar un array debo pisar el contenido anterior.
+            console.log(prods) // agrege para que se vea el array de productos en la consola
+        }
+
+    }
+
+
+    getProductById = async(id)=>{
+        const prods =  JSON.parse (await fs.readFile(path, 'utf-8'))
+
+        const productoById = prods.find( p => p.id === id)
+
+        if(productoById){
+            console.log(productoById)
         } else {
-            this.products.push(product)
+            console.log("Producto no encontrado")
+        }
+
+    }
+
+    updateProduct = async (id, product)=>{
+        const prods = JSON.parse ( await fs.readFile(path, 'utf-8'))
+
+        const productByIndex = prods.findIndex( p => p.id === id)
+
+        if(productByIndex != -1){
+            prods[productByIndex].title = product.title
+            prods[productByIndex].description = product.description
+            prods[productByIndex].price = product.price
+            prods[productByIndex].thumbnail = product.thumbnail
+            prods[productByIndex].code = product.code
+            prods[productByIndex].stock = product.stock
+
+            await fs.writeFile(path, JSON.stringify(prods))
+        } else{
+            console.log("Producto no encontrado")
         }
     }
 
-    getProducts(){
-        console.log(this.products)
-    }
+    deleteProducts = async (id)=>{
+        const prods = JSON.parse ( await fs.readFile (path, 'utf-8'))
 
-    getProductById(id){
-        const prod = this.products.find(prod => prod.id === id)
+        const deleteProd = prods.find ( p => p.id === id)
 
-        if(prod){
-            console.log(prod)
-        } else{
+        if(deleteProd){
+            await fs.writeFile (path, JSON.stringify( prods.filter( p => p.id != id )))
+        }else{
             console.log("Producto no encontrado")
         }
     }
@@ -55,18 +102,20 @@ const producto2 = new Product ("Dulce de leche", "Mar del plata", 10, [], "DL123
 const producto3 = new Product ("Alfajor", "Jorgito", 3, [], "A123", 15)
 
 
-//console.log(producto1, producto2, producto3)
-
 const productManager = new ProductManager()
 
+
+
 productManager.addProducto(producto1)
-productManager.addProducto(producto2)
-productManager.addProducto(producto3)
 
 
-productManager.getProducts()
 
-productManager.getProductById(3)
+
+
+
+
+
+
 
 
 
