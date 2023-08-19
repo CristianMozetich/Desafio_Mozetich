@@ -36,8 +36,8 @@ prodsRouter.get('/:id', async (req,res)=>{
 
 
 prodsRouter.post('/', async (req,res)=>{ 
-    const {code} = req.body
-    const confirmacion = await productManager.getProductByCode(code)
+    const {id} = req.body
+    const confirmacion = await productManager.getProductById(id)
 
     if ( confirmacion ){
         res.status(404).send("Producto ya creado")

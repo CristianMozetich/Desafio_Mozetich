@@ -4,9 +4,40 @@ import { promises as fs } from 'fs'
 
 const path = './productos.json'
 
-class ProductManager {
+
+class Product {
+    constructor(title, description, price, thumbnail, code, stock, category){
+        this.title = title,
+        this.description = description,
+        this.price = price,
+        this.thumbnail = thumbnail,
+        this.code = code,
+        this.stock = stock,
+        this.category = category,
+        this.id = Product.incrementarId()
+    }
+
+    static incrementarId(){
+
+        try{
+            if(this.idIncrement){
+                this.idIncrement++
+            } else{
+                this.idIncrement = 1
+            }
+            return this.idIncrement
+
+        } catch{
+            console.error(error)
+        }
+
+    }
+
+}
+
+class ProductManager extends Product {
     constructor (){
-        this.path = path
+        super()
     }
 
     getProducts = async ()=> {
@@ -51,9 +82,9 @@ class ProductManager {
             const productoById = prods.find( p => p.id === id)
     
             if(productoById){
-                console.log(productoById)
+                return productoById
             } else {
-                console.log("Producto no encontrado")
+                return null
             }
 
         } catch {
@@ -87,31 +118,16 @@ class ProductManager {
 
     }
 
-    getProductByCode = async (code)=>{
-        try{
-            const prods =  JSON.parse (await fs.readFile(path, 'utf-8'))
-
-            const prodByCode = prods.find( prod => prod.code === code)
-
-            if(prodByCode){
-                console.log(prodByCode)
-            } else {
-                prods.push(prodByCode)
-            }
-
-        }catch{
-            console.error(error)
-        }
-    }
-
     deleteProducts = async (id)=>{
         try{
             const prods = JSON.parse ( await fs.readFile (path, 'utf-8'))
 
-            const deleteProd = prods.find ( p => p.id === id)
+            
     
-            if(deleteProd){
-                await fs.writeFile (path, JSON.stringify( prods.filter( p => p.id != id )))
+            if(prods){
+                const deleteProd = prods.filter ( p => p.id !== id )
+
+                await fs.writeFile(path, JSON.stringify(deleteProd))
             }else{
                 console.log("Producto no encontrado")
             }
@@ -122,35 +138,6 @@ class ProductManager {
     }
 }
 
-class Product {
-    constructor(title, description, price, thumbnail, code, stock, category){
-        this.title = title,
-        this.description = description,
-        this.price = price,
-        this.thumbnail = thumbnail,
-        this.code = code,
-        this.stock = stock,
-        this.category = category,
-        this.id = Product.incrementarId()
-    }
-
-    static incrementarId(){
-
-        try{
-            if(this.idIncrement){
-                this.idIncrement++
-            } else{
-                this.idIncrement = 1
-            }
-            return this.idIncrement
-
-        } catch{
-            console.error(error)
-        }
-
-    }
-
-}
 
 
 
