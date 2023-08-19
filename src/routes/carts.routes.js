@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import cartManager from '../cartManager.js';
-import { productManager } from '../productManager.js';
 import { error } from 'console';
 
 
