@@ -1,6 +1,7 @@
 import { error } from 'console';
 import { promises as fs } from 'fs';
 
+
 const cartPath = './cart.json';
 
 class CartManager {
@@ -45,6 +46,7 @@ class CartManager {
             const cartData = await fs.readFile(cartPath, 'utf-8');
             const cartInfo = JSON.parse(cartData);
             const cartIndex = cartInfo.findIndex(c => c.id === cartId);
+
             
             if (cartIndex !== -1) {
                 const cart = cartInfo[cartIndex];
@@ -56,10 +58,10 @@ class CartManager {
                     cart.products.push({ product: productId, quantity: 1 });
                 }
     
-                await fs.writeFile(cartPath, JSON.stringify(cartInfo)); // No need for JSON.parse here
+                await fs.writeFile(cartPath, JSON.stringify(cartInfo)); 
                 return cart;
             } else {
-                return null; // Cart not found
+                return null; 
             }
         } catch (error) {
             throw error;
