@@ -26,7 +26,7 @@ class ProductManager {
         try{
             const prods = JSON.parse( await fs.readFile(path, 'utf-8'))
 
-            const producto = prods.find( p => p.id === product.id)
+            const producto = prods.find( p => p.code === product.code)
     
             if(producto){
                 console.log("Producto ya encontrado")
@@ -87,6 +87,23 @@ class ProductManager {
 
     }
 
+    getProductByCode = async (code)=>{
+        try{
+            const prods =  JSON.parse (await fs.readFile(path, 'utf-8'))
+
+            const prodByCode = prods.find( prod => prod.code === code)
+
+            if(prodByCode){
+                console.log(prodByCode)
+            } else {
+                prods.push(prodByCode)
+            }
+
+        }catch{
+            console.error(error)
+        }
+    }
+
     deleteProducts = async (id)=>{
         try{
             const prods = JSON.parse ( await fs.readFile (path, 'utf-8'))
@@ -135,19 +152,15 @@ class Product {
 
 }
 
-const producto1 = new Product ("Taragui", "buena", 12, [], "YE123", 25, "Bebida")
-const producto2 = new Product ("Dulce de leche", "Mar del plata", 10, [], "DL123", 10, "Comida")
-const producto3 = new Product ("Alfajor", "Jorgito", 3, [], "A123", 15, "Comida")
 
 
 export const productManager = new ProductManager()
 
 
 
-//productManager.addProducto(producto1)
+/*productManager.addProducto(producto1)
 
-/*productManager.deleteProducts()
+productManager.deleteProducts()
 
 productManager.updateProduct(3, {title: "empanada"})*/
-
 
