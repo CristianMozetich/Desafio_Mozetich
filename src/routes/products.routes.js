@@ -36,7 +36,7 @@ prodsRouter.get('/:id', async (req,res)=>{
 
 
 prodsRouter.post('/', async (req,res)=>{ 
-    const {id} = req.body
+    const {id} = req.params
     const confirmacion = await productManager.getProductById(id)
 
     if ( confirmacion ){

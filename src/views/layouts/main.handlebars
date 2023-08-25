@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="#">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="../../public/css/{{css}}">
+</head>
+<body class="root">
+    <!-- > ESTO INDICA QUE VA ESTAR EN LA CARPETA PARTIALS -->
+    {{>nav}} 
+    {{{body}}}
+    {{>footer}}
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../../public/js/{{js}}"></script>
+</body>
+</html>
