@@ -30,6 +30,13 @@
             <input type="text" required name="id">
         </li>
     </ul>
-    <button>Enviar</button>
+    <button id="btn_prods">Enviar</button>
 </form>
 
+
+<h1>Lista de Productos</h1>
+<ul>
+    {{#each products}}
+        <li>{{this.title}} - {{this.description}} - {{this.price}} - {{this.thumbnail}}</li>
+    {{/each}}
+</ul>

@@ -14,10 +14,6 @@ const app = express()
 
 const PORT = 8080
 
-const serverExpress = app.listen(PORT, ()=>{
-    console.log( `server on port ${PORT} `)
-})
-
 
 
 
@@ -49,6 +45,12 @@ app.use('/api/carts', cartRouter)
 
 
 //Server Socket.io
+
+
+const serverExpress = app.listen(PORT, ()=>{
+    console.log( `server on port ${PORT} `)
+})
+
 const io = new Server(serverExpress)
 
 
@@ -60,8 +62,8 @@ io.on('connection', (socket)=>{
     })
 
 
-    socket.on('nuevoProducto', (nuevoProd)=>{
-        const prods = productManager.addProducto(nuevoProd)
+    socket.on('nuevoProducto', async (nuevoProd)=>{
+        const prods = await productManager.addProducto(nuevoProd)
         socket.emit('prods', prods)
     })
 })
@@ -70,13 +72,17 @@ io.on('connection', (socket)=>{
 
 
 //Routes
+app.use('/api/products', prodsRouter)
+app.use('/api/carts', cartRouter)
+
 app.get('/static', async (req, res) => {
     try {
         const products = await productManager.getProducts(); 
 
         res.render('realTimeProducts', {
             js: "realTimeProducts.js",
-            css: "style.css"
+            css: "style.css",
+            products: products
         });
     } catch (error) {
         console.error('Error al obtener los productos:', error);

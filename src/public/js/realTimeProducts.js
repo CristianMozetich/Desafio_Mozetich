@@ -1,11 +1,14 @@
 
 
+
 //FORMULARIO
 const form = document.getElementById('form')
+const btn_prods = document.getElementById('btn_prods')
 
-const socket = io()
+
 
 form.addEventListener('submit', (e)=>{
+    const socket = io()
     e.preventDefault()
 
     const datForm = new FormData(e.target)//Obtiene la información del input de un formulario
@@ -15,5 +18,7 @@ form.addEventListener('submit', (e)=>{
     socket.emit('nuevoProducto', prod)
     e.target.reset()
 })
+
+
 
 
